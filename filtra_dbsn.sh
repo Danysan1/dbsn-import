@@ -16,8 +16,8 @@ DEST_FILE_PATH='./notebooks/municipi.geojson'
 
 # TODO add other categories
 
-SOURCE_DIR_PATH="./zip"
-UNZIPPED_DIR_PATH='./unzipped'
+SOURCE_DIR_PATH="../zip"
+UNZIPPED_DIR_PATH='../unzipped'
 
 
 mkdir -p "$DEST_DIR_PATH"
