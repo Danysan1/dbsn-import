@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-# Il filtro da applicare ai dati e il layer da usare vanno ricavati dal PDF delle specifiche
-# La lista dei layer disponibili si può ottenere eseguendo ogrinfo sulla cartella gdb di una qualsiasi provincia
+# To understand and find the filters, check out https://wiki.openstreetmap.org/wiki/Italy/DBSN#Data_model
+# The list of available layers can be obtained by running ogrinfo on the gdb folder for any province
 
 GDAL_FILTER="\"edifc_uso\" = '0201'"
 GDAL_LAYER='edifc'
@@ -16,14 +16,14 @@ DEST_FILE_PATH='./notebooks/municipi.geojson'
 
 # TODO add other categories
 
-SOURCE_DIR_PATH="../zip"
+ZIP_DIR_PATH="../zip"
 UNZIPPED_DIR_PATH='../unzipped'
 
 
 mkdir -p "$DEST_DIR_PATH"
 mkdir -p "$UNZIPPED_DIR_PATH"
 
-for province_zip_path in "$SOURCE_DIR_PATH"/*.zip ; do
+for province_zip_path in "$ZIP_DIR_PATH"/*.zip ; do
     base_name="$(basename $province_zip_path)"
     base_name_no_extension="${base_name%.zip}"
 
