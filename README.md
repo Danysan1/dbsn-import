@@ -7,4 +7,6 @@ Scripts and notebooks for anlysis and preparation of IGM DBSN data for integrati
 Main scripts:
 * [download.sh](./download.sh): Download the files for each province
 * [filter.sh](./filter.sh): Filter all the elements of a certain type
-* [townhalls_dbsn.ipynb](./notebooks/townhalls_dbsn.ipynb): find missing townhalls (run only after creating townhalls.geojson with `./filter.sh edifc "\"edifc_uso\" = '0201'" townhalls geojson`; view on https://www.dsantini.it/dbsn/notebooks/townhalls_dbsn.html )
+* [townhalls_dbsn.ipynb](./notebooks/townhalls_dbsn.ipynb): find missing townhalls (run only after creating townhalls.geojson with `./filter.sh edifc "edifc_uso = '0201'" townhalls`)
+    * https://www.dsantini.it/dbsn/notebooks/townhalls_dbsn-v1.html
+    * https://www.dsantini.it/dbsn/notebooks/townhalls_dbsn-v0.html
