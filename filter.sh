@@ -4,8 +4,10 @@ set -e
 # To understand and find the filters, check out https://wiki.openstreetmap.org/wiki/Italy/DBSN#Data_model
 # The list of available layers can be obtained by running ogrinfo on the gdb folder for any province
 # Examples of usage:
+# ./filter.sh <NAME> <LAYER> [FILTER]
 # ./filter.sh buildings edifc
 # ./filter.sh townhalls edifc "edifc_uso = '0201'"
+# ./filter.sh police_buildings edifc "edifc_uso = '0306'"
 # ./filter.sh hospital_buildings edifc "edifc_uso = '030102'"
 # ./filter.sh hospitals pe_uins "pe_uins_ty = '0302'"
 
@@ -13,11 +15,9 @@ OUT_NAME="$1"
 GDAL_LAYER="$2"
 GDAL_FILTER="$3"
 
-ZIP_DIR_PATH="../zip"
-UNZIPPED_DIR_PATH='../unzipped'
-
-
-TEMP_DIR_PATH="./.temporary_data/$OUT_NAME"
+ZIP_DIR_PATH="$(dirname "$0")/zip"
+UNZIPPED_DIR_PATH="$(dirname "$0")/unzipped"
+TEMP_DIR_PATH="$(dirname "$0")/.temporary_data/$OUT_NAME"
 mkdir -p "$TEMP_DIR_PATH"
 mkdir -p "$UNZIPPED_DIR_PATH"
 

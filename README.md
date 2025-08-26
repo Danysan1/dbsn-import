@@ -1,6 +1,6 @@
 # dbsn-import
 
-Scripts and notebooks for anlysis and preparation of IGM DBSN data for integration in OpenStreetMap.
+Scripts and notebooks for analysis and preparation of IGM DBSN data for integration in OpenStreetMap.
 
 * [OSM Wiki](https://wiki.openstreetmap.org/wiki/Italy/DBSN)
 * [Official website](https://www.igmi.org/it/dbsn-database-di-sintesi-nazionale)
