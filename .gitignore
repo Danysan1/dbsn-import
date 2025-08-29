@@ -1,6 +1,8 @@
 .temporary_data/
 *.geojson
 *.parquet
+*.mbtiles
+*.pbf
 zip/
 unzipped/
 
