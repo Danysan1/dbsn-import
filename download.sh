@@ -11,7 +11,7 @@ ZIP_DIR_PATH="$(dirname "$0")/zip"
 mkdir -p "$ZIP_DIR_PATH"
 
 while IFS=$'\t' read -r file_name region province wmit_url igm_url igm_date ; do
-    if [[ "$province" == "Province" ]]; then
+    if [[ "$file_name" == "File" ]]; then
         # Skip header line
         continue
     fi

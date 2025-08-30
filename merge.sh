@@ -10,8 +10,10 @@ OUT_NAME="$1"
 FORMAT="${2:-geojson}" # Default format is geojson
 
 TEMP_DIR_PATH="./.temporary_data/$OUT_NAME"
-
 GEOJSON_FILE_PATH="./data/dbsn_$OUT_NAME.geojson"
+
+mkdir -p "./data"
+
 if [[ "$FORMAT" == "geojson" || "$FORMAT" == "parquet" ]]; then
     if which ogr2ogr ; then
         rm -f "$GEOJSON_FILE_PATH"

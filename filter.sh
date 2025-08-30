@@ -27,6 +27,11 @@ mkdir -p "$TEMP_DIR_PATH"
 mkdir -p "$UNZIPPED_DIR_PATH"
 
 while IFS=$'\t' read -r file_name region province wmit_url igm_url igm_date ; do
+    if [[ "$file_name" == "File" ]]; then
+        # Skip header line
+        continue
+    fi
+    
     if [[ -n "$AREA_NAME" && "$province" != "$AREA_NAME" && "$region" != "$AREA_NAME" ]]; then
         echo "===> $region - $province: SKIPPED"
         continue
