@@ -2,7 +2,7 @@
 set -e
 
 if [[ -z "$1" ]]; then
-    echo "Usage: ./merge.sh <out_name> [<format>]"
+    echo "See README.md for usage instructions"
     exit 1
 fi
 

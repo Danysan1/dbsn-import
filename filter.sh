@@ -2,7 +2,7 @@
 set -e
 
 if [[ -z "$1" || -z "$2" ]]; then
-    echo "Usage: ./filter.sh <out_name> <gdal_layer> [<gdal_filter>] [<nome_regione_o_provincia>]"
+    echo "See README.md for usage instructions"
     exit 1
 fi
 
