@@ -98,15 +98,15 @@ while IFS=$'\t' read -r region province zip_file_name wmit_url igm_url igm_date 
     fi
 
     original_file_name_no_extension="${zip_file_name%.zip}"
-    province_file_path="$TEMP_DIR_PATH/$original_file_name_no_extension.$OUT_EXTENSION"
-    if [ -f "$province_file_path" && ! OVERWRITE ]; then
+    province_file_path="$OUT_DIR_PATH/$original_file_name_no_extension.$OUT_EXTENSION"
+    if [[ -f "$province_file_path" && "$OVERWRITE" != true ]]; then
         echo "===> $region/$province/$igm_date: Already extracted and filtered in '$province_file_path'"
         continue
     fi
     
     province_zip_path="$ZIP_DIR_PATH/$zip_file_name"
     unzipped_dir_path="$UNZIPPED_DIR_PATH/$original_file_name_no_extension"
-    if [ -e "$unzipped_dir_path" ]; then
+    if [[ -e "$unzipped_dir_path" ]]; then
         echo "===> $region/$province/$igm_date: Already extracted in '$unzipped_dir_path'"
     else
         echo "===> Extraction of '$province_zip_path' in '$unzipped_dir_path'..."
@@ -116,15 +116,16 @@ while IFS=$'\t' read -r region province zip_file_name wmit_url igm_url igm_date 
 
     gdb_dir_path="$(find "$unzipped_dir_path" -maxdepth 2 -type d -name '*.gdb')"
 
-    ogr2ogr_cmd="-f \"$OUT_DRIVER\" -t_srs 'EPSG:4326' -nln \"$OUT_NAME\" -skipfailures"
-    [[ -n "$GDAL_FILTER" ]] && ogr2ogr_cmd="$ogr2ogr_cmd -where \"$GDAL_FILTER\""
-    [[ $OVERWRITE == true ]] && ogr2ogr_cmd="$ogr2ogr_cmd -overwrite"
-    [[ $UPDATE == true ]] && ogr2ogr_cmd="$ogr2ogr_cmd -update"
-    [[ $APPEND == true ]] && ogr2ogr_cmd="$ogr2ogr_cmd -append"
+    flags="-f \"$OUT_DRIVER\" -t_srs 'EPSG:4326' -nln \"$OUT_NAME\" -skipfailures"
+    [[ -n "$GDAL_FILTER" ]] && flags="$flags -where \"$GDAL_FILTER\""
+    [[ $OVERWRITE == true ]] && flags="$flags -overwrite"
+    [[ $UPDATE == true ]] && flags="$flags -update"
+    [[ $APPEND == true ]] && flags="$flags -append"
 
-    echo "===> Filtering of '$gdb_dir_path' in '$province_file_path' with command ogr2ogr $ogr2ogr_cmd "$province_file_path" "$gdb_dir_path" "$GDAL_LAYER" ..."
+    filter_cmd="ogr2ogr $flags \"$province_file_path\" \"$gdb_dir_path\" \"$GDAL_LAYER\""
+    echo "===> Filtering of '$gdb_dir_path' with command: $filter_cmd"
 
-    sh -c "ogr2ogr $ogr2ogr_cmd "$province_file_path" "$gdb_dir_path" "$GDAL_LAYER"" \
+    sh -c "$filter_cmd" \
     && echo "===> $region/$province/$igm_date: Filtering COMPLETED" \
     || (echo "===> !!!!!!!!!! $region/$province/$igm_date: Filtering FAILED !!!!!!!!!!" && rm "$province_file_path")
 done < ./dbsn.tsv

@@ -21,7 +21,7 @@ Main scripts:
    * `<gdal_filter>` should have the format `"parameter = 'value'"`, you can use `""` for no filter
    * `<area_name>` can be the name of a region or a province
    * `-g` tell program to call [download.sh](./download.sh) to get missing files 
-   * `-u` tell ogr2ogr to update existsing output dataset
+   * `-u` tell ogr2ogr to update existing output dataset
    * `-a` tell ogr2ogr to append to existing file and update output dataset
    * `-o` tell ogr2ogr to overwrite existing output dataset
    * `-e <extension>` tell the output extension to the program 

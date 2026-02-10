@@ -3,6 +3,7 @@ set -e
 
 # Usage: ./download.sh [<nome_regione_o_provincia>]
 
+OUT_DRIVER="FlatGeobuf" # GeoJSON / FlatGeobuf / ...
 OUT_EXTENSION="fgb" # geojson / fgb / ...
 
 OUT_NAME="$1"
@@ -31,6 +32,8 @@ while IFS=$'\t' read -r region province zip_file_name wmit_url igm_url igm_date 
         #echo "===> $region/$province/$igm_date: SKIPPED"
         continue
     fi
+    zip_file_name="${zip_file_name:0:2}_$igm_date.zip"
+    zip_file_path="$ZIP_DIR_PATH/${zip_file_name}"
 
     pbf_file_url="$(grep "$province" ./wmit-estratti.tsv | cut -f 2 | tr -d '\r\n')"
     pbf_file_path="$PBF_DIR_PATH/$province.osm.pbf"
@@ -65,14 +68,16 @@ while IFS=$'\t' read -r region province zip_file_name wmit_url igm_url igm_date 
     zip_file_name_no_extension="${zip_file_name%.zip}"
     dbsn_fgb_file_path="$DBSN_DIR_PATH/$zip_file_name_no_extension.$OUT_EXTENSION"
     out_file_path="$COMPARE_DIR_PATH/$province.fgb"
-    # if which gdal ; then
-    #     echo "===> $region/$province: Comparing '$dbsn_fgb_file_path' and '$osm_geojson_file_path' with gdal cli"
-    #     # https://gdal.org/en/stable/programs/gdal_vector_layer_algebra.html
-    #     gdal vector layer-algebra erase "$dbsn_fgb_file_path" "$osm_geojson_file_path" "$out_file_path"
-    if which ogr_layer_algebra ; then
-         echo "===> $region/$province: Comparing '$dbsn_fgb_file_path' and '$osm_geojson_file_path' with ogr_layer_algebra"
+    if [[ -f "$out_file_path" ]]; then
+        echo "===> $region/$province: OSM comparison already exists: '$out_file_path'"
+    elif which ogr_layer_algebra ; then
+        echo "===> $region/$province: Comparing '$dbsn_fgb_file_path' and '$osm_geojson_file_path' with ogr_layer_algebra"
         # https://gdal.org/en/stable/programs/ogr_layer_algebra.html
-        ogr_layer_algebra Erase -input_ds "$dbsn_fgb_file_path" -method_ds "$osm_geojson_file_path" -output_ds "$out_file_path" -output_lyr "$OUT_FILE_NAME" -f "FlatGeoBuf"
+        ogr_layer_algebra Erase -input_ds "$dbsn_fgb_file_path" -method_ds "$osm_geojson_file_path" -output_ds "$out_file_path" -output_lyr "$OUT_FILE_NAME" -f "$OUT_DRIVER"
+    elif which gdal ; then
+        echo "===> $region/$province: Comparing '$dbsn_fgb_file_path' and '$osm_geojson_file_path' with gdal cli"
+        # https://gdal.org/en/stable/programs/gdal_vector_layer_algebra.html
+        gdal vector layer-algebra erase "$dbsn_fgb_file_path" "$osm_geojson_file_path" "$out_file_path" -f "$OUT_DRIVER"
     else
         echo "=====> GDAL not found, install it with the instructions in https://gdal.org/download.html"
         exit 1
