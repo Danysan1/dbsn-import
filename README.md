@@ -7,11 +7,10 @@ Scripts and notebooks for analysis and preparation of IGM DBSN data for integrat
 
 Main scripts:
 1. [download.sh](./download.sh): Download the files (one zip for each province)
-   * `./download.sh -wiah -d <date> [<area_name>]`
+   * `./download.sh -wih -d <date> [<area_name>]` (for example `./download.sh Liguria`)
    * `<area_name>` can be the name of a region or a province
    * `-w` prefer wikimedia or externally hosted files
    * `-i` prefer IGM files
-   * `-a` download all files, overrides <area_name>
    * `-d <date>` download only specific files on specific date in format YYYY-MM-DD
    * `-h` shows a little help
 2. [filter.sh](./filter.sh): Filter all the elements of a certain type (one GeoJSON for each province)
