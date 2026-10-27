@@ -3,7 +3,7 @@
 Scripts and notebooks for analysis and preparation of IGM DBSN data for integration in OpenStreetMap.
 
 * [OSM Wiki](https://wiki.openstreetmap.org/wiki/Italy/DBSN)
-* [Official website](https://www.igmi.org/it/dbsn-database-di-sintesi-nazionale)
+* [Official website](https://igmi.esercito.difesa.it/servizi/database-di-sintesi-nazionale/)
 
 Main scripts:
 1. [download.sh](./download.sh): Download the files (one zip for each province)
